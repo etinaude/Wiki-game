@@ -1,5 +1,5 @@
 import urllib.request
-import pickle
+import json
 import re
 class Page:
     def process(self):
@@ -14,13 +14,11 @@ class Page:
             links[i]=links[i].replace('href="/wiki/',"")
             links[i]=links[i].replace('"',"")
         self.links=links
-        words=""
-        for i in links[:-1]:
-            if i =="":
-                break
-            words = words + i+"\n"
-        with open("./pages/"+self.title, 'wb') as fp:
-            pickle.dump(words, fp)
+        test = json.JSONEncoder().encode({self.title: links})
+        with open("json/graph.json", "a") as myfile:
+            myfile.write(test[1:-1] +",\n")
+            
+        
 
     def __init__(self, s):
         self.title = s

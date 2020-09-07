@@ -1,28 +1,36 @@
 import importlib
 import urllib.request
-import pickle
-import re
 from page import Page
+import json
 
-item = "Harry_Potter"
+# a very good place to start
+item = "ABC"
 
 articles =[]
 complete = []
+short ={}
+
 try:
-    complete = pickle.load( open( "done", "rb" ) )
+    complete = json.load( open("json/done.json", "r" ) )
 except:
     pass
 
-for i in range(20):
-    #print(complete)
-    current = Page(item)
-    articles.extend(current.links)
-    while articles[0] in complete:
+for i in range(6152223):
+    try:
+        current = Page(item)
+        articles.extend(current.links)
+        short[current.title]= current.links
+        while articles[0] in complete:
+            articles.pop(0)
+        item = articles[0]
+        complete.append(item)
         articles.pop(0)
-    item = articles[0]
-    complete.append(item)
-    articles.pop(0)
-    print(item)
-    if (i%5==0):
-        print("here")
-        pickle.dump( complete, open( "done", "wb" ) )
+        print(item)
+        #print(complete)
+        if (i%20==0):
+            with open("json/done.json", 'w') as f:
+                json.dump(complete, f)
+    except Exception as error:
+        print(error)
+        with open("json/error.json", 'w') as f:
+                json.dump(complete, f)
