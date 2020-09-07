@@ -1,6 +1,6 @@
 import urllib.request
 import pickle
-class page:
+class pAgE:
     def process(self):
         links=[]
         wiki_link="href=\"/wiki/"
@@ -37,7 +37,7 @@ class page:
         ##    if i =="":
         #        break
         #    words = words + i+"\n"
-        #with open("page.data", 'wb') as fp:
+        #with open("pAgE.data", 'wb') as fp:
          #   pickle.dump(words, fp)
 
 
