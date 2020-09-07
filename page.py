@@ -1,11 +1,17 @@
 import urllib.request
 import pickle
-class pAgE:
+import re
+class Page:
     def process(self):
         links=[]
-        wiki_link="href=\"/wiki/"
+        wiki_link='\href="/wiki/'
         raw = str(self.raw)
-        try:
+        raw = raw.split("mw-parser-output")[1]
+        #print(raw)
+        raw = raw.split('id="References"')[0]
+        links = re.findall('href="/wiki/\w+"', raw)
+        print(links)
+        '''try:
             for i in range(1000):
                 index= raw.find(wiki_link)+12
                 links.append("https://en.wikipedia.org/wiki/"+ raw[index:raw.find("title",index)-2])
@@ -28,18 +34,15 @@ class pAgE:
             if "\"" in links[i]:
                 links[i] = links[i][:links[i].find("class")-1]
             i+=1
-            
-
-
+        '''
         self.links=links
-        #words=""
-        #for i in links[:-1]:
-        ##    if i =="":
-        #        break
-        #    words = words + i+"\n"
-        #with open("pAgE.data", 'wb') as fp:
-         #   pickle.dump(words, fp)
-
+        words=""
+        for i in links[:-1]:
+            if i =="":
+                break
+            words = words + i+"\n"
+        with open("Page.data", 'wb') as fp:
+            pickle.dump(words, fp)
 
     def __init__(self, s):
         self.url = s
